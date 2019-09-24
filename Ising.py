@@ -3,17 +3,20 @@ from random import random
 from math import e
 import csv
 
+#Originalmente, escrevi esta simulação do modelo de Ising em C++ em 2016, mas em agosto eu reescrevi em python como um exercício de fixação.
+
 def Ising(L):
-    n = 10
-    #n passos Monte Carlo
+    n = 100000
+    #n passos Monte Carlo, uso apenas 100 ou 1000 para testes curtos
 
     data = []
     data.append(["T,u,m,c,chi"])
+    #variáveis que irei calcular em função da temperatura T (energia interna, momento magnético, calor específico e susceptibilidade magnética)
 
-    lat = [] #linhas da rede
+    lat = [] #linhas da rede cristalina
     i = 0
     while i < L:
-        cell = [] #colunas da rede
+        cell = [] #colunas da rede cristalina
         j = 0
         while j < L:
             cell.append(randint(0,1)*2-1) #momento magnético de cada célula
@@ -28,6 +31,7 @@ def Ising(L):
     #energia e momento magnético da rede
     M = 0
     E = 0
+    
     j = 0
     while j < L:
         k = 0
@@ -40,7 +44,7 @@ def Ising(L):
     T = 1
     while T<4.1:
         Delta = 0 #variação de energia
-        p = 0 #ativação térmica exp(1/kT)
+        p = 0 #ativação térmica, exp(1/kT)
         M1 = 0 #média da magnetização
         M2 = 0 #média dos quadrados de M
         E1 = 0 #média da energia
@@ -98,7 +102,7 @@ def Ising(L):
                 s += 1
 
             
-            #descartando os primeiros 10% de passos para as médias
+            #descartando os primeiros 10% de passos para as médias, porque precisamos "estabilizar o sistema" em cada temperatura
             if step > 0.1*n:
                 E1 = E1 + E
                 M1 = M1 + (M**2)**(0.5)
@@ -116,10 +120,9 @@ def Ising(L):
         
         T += 0.1
 
-    #exportando os dados para o arquivo
+    #exportando os dados para o arquivo (nomeado com o tamanho da rede)
     with open('Rede de L = {}.csv'.format(L), 'w') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerows(data)
     csvFile.close()
-    return "Cálculos realizados com sucesso, ufa!"
-print(Ising(50))
+    return "Cálculos realizados com sucesso."
