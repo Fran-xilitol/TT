@@ -3,7 +3,7 @@ from random import random
 from math import e
 import csv
 
-#Originalmente, escrevi esta simulação do modelo de Ising em C++ em 2016, mas em agosto eu reescrevi em python como um exercício de fixação.
+#Originalmente, escrevi esta simulação do modelo de Ising em C++ em 2016, mas em agosto de 2019 eu reescrevi em python como um exercício de fixação em Python.
 
 def Ising(L):
     n = 100000
